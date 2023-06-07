@@ -3,6 +3,8 @@ name: douban
 on: 
   schedule:
   - cron: "0 5 * * *"
+  watch:
+    types: [started]
 
 jobs:
   douban:
