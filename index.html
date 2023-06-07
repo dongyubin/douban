@@ -53,6 +53,8 @@
 <script>
   function drawMain(drawing_elem, percent, forecolor, bgcolor) {
  /*
+    借鉴地址：[canvas 绘制动态圆环进度条_canvas 环形进度条 背景色_前端小白的江湖路的博客-CSDN博客](https://blog.csdn.net/qq_21058391/article/details/76691047)
+    https://github.com/klren0312/daliy_knowledge/issues/63
     @drawing_elem: 绘制对象
     @percent：绘制圆环百分比, 范围[0, 100]
     @forecolor: 绘制圆环的前景色，颜色代码
@@ -63,6 +65,15 @@
  var center_y = drawing_elem.height / 2;
  var rad = Math.PI*2/100;    
  var speed = 0;
+ var width = drawing_elem.width;
+ var  height = drawing_elem.height;
+  if (window.devicePixelRatio) { //移动端锯齿解决方案
+    drawing_elem.style.width = width + "px";
+    drawing_elem.style.height = height + "px";
+    drawing_elem.height = height * window.devicePixelRatio;
+    drawing_elem.width = width * window.devicePixelRatio;
+    context.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
 
     
  // 绘制背景圆圈
