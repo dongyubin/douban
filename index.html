@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 解决豆瓣图片加了防盗链，无法显示的问题 -->
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>豆瓣影视</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    a {
+      text-decoration: none;
+    }
+    .content {
+      display: flex;
+      /* 换行显示 */
+      flex-wrap: wrap;
+      justify-content: space-around;
+      text-align: center;
+    }
+    .list {
+      display: flex;
+      /* 定义主轴放下：上下 */
+      flex-direction: column;
+      margin-left: 10px;
+      margin-top: 10px;
+      position: relative;
+    }
+    .d-canvas {
+      width: 60px;
+      height: 60px;
+      background-color: #081c22;
+      border-radius: 50%;
+      position: absolute;
+      right: 4px;
+      top: 316px;
+    }
+    img {
+      width: 270px;
+      height: 380px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="container">
+    <div class="content" id="content">
+
+    </div>
+  </div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  function drawMain(drawing_elem, percent, forecolor, bgcolor) {
+ /*
+    @drawing_elem: 绘制对象
+    @percent：绘制圆环百分比, 范围[0, 100]
+    @forecolor: 绘制圆环的前景色，颜色代码
+    @bgcolor: 绘制圆环的背景色，颜色代码
+ */
+ var context = drawing_elem.getContext("2d");
+ var center_x = drawing_elem.width / 2;
+ var center_y = drawing_elem.height / 2;
+ var rad = Math.PI*2/100;    
+ var speed = 0;
+
+    
+ // 绘制背景圆圈
+ function backgroundCircle(){
+    context.save();
+    context.beginPath();
+    context.lineWidth = 8; //设置线宽
+    var radius = center_x - context.lineWidth;
+    context.lineCap = "round";
+    context.strokeStyle = bgcolor;
+    context.arc(center_x, center_y, radius, 0, Math.PI*2, false);
+    context.stroke();
+    context.closePath();
+    context.restore();
+ }
+    
+ //绘制运动圆环
+ function foregroundCircle(n){
+    context.save();
+    context.strokeStyle = forecolor;
+    context.lineWidth = 8;
+    context.lineCap = "round";
+    var radius = center_x - context.lineWidth;
+    context.beginPath();
+    context.arc(center_x, center_y, radius , -Math.PI/2, -Math.PI/2 +n*rad, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
+    context.stroke();
+    context.closePath();
+    context.restore();
+ }
+    
+ //绘制文字
+ function text(n){
+    context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+    context.fillStyle = forecolor;
+    var font_size = 12;
+    context.font = font_size + "px Helvetica";
+    // 该对象包含有关测量文本的信息（例如其宽度）
+    var text_width = context.measureText(n.toFixed(0)+"%").width;
+    context.fillText(n.toFixed(0)+"%", center_x-text_width/2, center_y + font_size/2);
+    context.restore();
+ }
+    
+ //执行动画
+//  (function drawFrame(){
+    // window.requestAnimationFrame(drawFrame);
+    context.clearRect(0, 0, drawing_elem.width, drawing_elem.height);
+    backgroundCircle();
+    text(percent);
+    foregroundCircle(percent);
+    // if(speed >= percent) return;
+    // speed += 1;
+//  }());
+  }
+  var jsonData='./data/douban/movie.json';
+  // 使用$.ajax()方法获取本地JSON文件
+
+  $.ajax({
+    url: jsonData,
+    dataType: 'json',
+    success: function(data) {
+      // 当获取成功时，使用$.parseJSON()方法解析JSON数据
+      var jsonObj = $.parseJSON(JSON.stringify(data));
+
+      let title= '';
+      let picNormal = '';
+      var canvases = [];
+      // 页面内容
+      var $content = $('#content')
+      console.log(jsonObj);
+      for(let i=0; i<jsonObj.length; i++){
+        
+        let jsonObjData = jsonObj[i];
+        // 电影信息
+        let subject = jsonObjData['subject'];
+        // 评分
+        let rating = jsonObjData['rating'];
+        // 电影题目
+        title = subject['title'];
+        // 电影信息
+        sharing_url = subject['sharing_url'];
+        // 电影照片
+        picNormal = subject['pic']['normal'];
+        // 官方评分
+        let ratings = subject['rating'];
+        let ratings_value = ratings['value'];
+        let ratings_star_count = ratings['star_count'];
+        
+        // 创建新的Div
+        var newDiv = $("<div></div>");
+        var canvasDiv = $("<div></div>");
+        newDiv.addClass('list');
+        canvasDiv.addClass('d-canvas')
+        var newLink = $("<a></a>").attr({
+				"href": sharing_url,
+        "target": '_blank',
+				"alt": title
+        });
+        // 显示电影题目
+        var $span = $('<h2>').text(title);
+        // 显示电影照片
+        var newImg = $("<img />").attr({
+				"src": picNormal,
+				"alt": title
+        });
+        // 显示个人评分
+        var $span_star = $('<span>');
+        
+        if (rating != null){
+          $span_star.append('个人评分：');
+          let star_count = rating['star_count'];
+          // console.log(star_count);
+          for(let j=0; j<star_count; j++){
+            $span_star = $span_star.append('🌟');
+          }
+        }else{
+          $span_star.append('个人评分：未评分');
+        }
+        var $ratings_star_span = $('<span>');
+        $ratings_star_span.append('豆瓣评分：')
+        for(let k=0; k<ratings_star_count; k++){
+          $ratings_star_span = $ratings_star_span.append('🌟');
+        }
+
+        var ratings_star_canvas = $('<canvas>').attr({
+          width: 60,
+          height: 60
+        });
+        ratings_star_canvas.attr('id', 'canvas' + i);
+        drawMain(ratings_star_canvas[0], ratings_value*10, "#85d824", "#eef7e4");
+        $ratings_star_span.append('&nbsp;&nbsp;&nbsp;'+ratings_value+'/10');
+        newLink.append(newImg);
+        canvasDiv.append(ratings_star_canvas);
+        newDiv.append(canvasDiv);
+        newDiv.append(newLink);
+        newDiv.append($span);
+        newDiv.append($span_star);
+        newDiv.append($ratings_star_span);
+        $content.append(newDiv);
+        
+      }
+      
+    },
+    error: function(xhr, status, error) {
+      // 处理错误情况
+      console.log('获取JSON数据失败：' + error);
+    }
+  });
+</script>
+</html>
