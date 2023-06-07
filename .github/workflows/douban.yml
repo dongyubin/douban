@@ -17,7 +17,7 @@ jobs:
       with:
         id: 185455848
         type: movie
-        format: csv
+        format: json
         dir: ./data/douban
   
     - name: Commit
