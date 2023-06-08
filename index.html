@@ -293,7 +293,7 @@
       }else{
         filteredData = $.parseJSON(JSON.stringify(data));
       }
-      // console.log(filteredData);
+      console.log(filteredData);
       // 清空页面
       content.html('');
       updatePage(content, filteredData);
@@ -322,23 +322,35 @@
       let rating = Data[i]['rating'];
       // 电影题目
       title = subject['title'];
-      // 电影信息
-      sharing_url = subject['sharing_url'];
+      // 电影链接
+      // sharing_url = subject['sharing_url'];
       // 电影照片
-      picNormal = subject['pic']['normal'];
+      // picNormal = subject['pic']['normal'];
+      // 照片
+      cover_url = subject['cover_url'];
       // 官方评分集合
       let ratings = subject['rating'];
-      // 官方评分集合 - 官方评分
-      let ratings_value = ratings['value'];
-      // 官方评分 - 官方评分星星数
-      let ratings_star_count = ratings['star_count'];
       // 颜色集合
       let color_scheme = subject['color_scheme'];
-      // 颜色集合 -主要颜色
-      let primary_color_light = color_scheme['primary_color_light'];
-      let primary_color_dark = color_scheme['primary_color_dark'];
-      // 颜色集合 - 次要颜色
-      let secondary_color = color_scheme['secondary_color'];
+      let url = subject['url'];
+      // 官方评分集合 - 官方评分
+      let ratings_value = ratings['value'];
+      var primary_color_dark;
+      var secondary_color;
+      if(color_scheme === null){
+        primary_color_dark = '85d824';
+        // 颜色集合 - 次要颜色
+        secondary_color = 'eef7e4';
+      }else{
+        // 颜色集合 -主要颜色
+        // var primary_color_light = color_scheme['primary_color_light'];
+        primary_color_dark = color_scheme['primary_color_dark'];
+        // 颜色集合 - 次要颜色
+        secondary_color = color_scheme['secondary_color'];
+      }
+      // 官方评分 - 官方评分星星数
+      let ratings_star_count = ratings['star_count'];
+      
       
       // 创建新的Div
       var newDiv = $("<div></div>");
@@ -346,7 +358,7 @@
       newDiv.addClass('list');
       canvasDiv.addClass('d-canvas')
       var newLink = $("<a></a>").attr({
-      "href": sharing_url,
+      "href": url,
       "target": '_blank',
       "alt": title
       });
@@ -354,7 +366,7 @@
       var $span = $('<h2>').text(title);
       // 显示电影照片
       var newImg = $("<img />").attr({
-      "src": picNormal,
+      "src": cover_url,
       "alt": title
       });
       // 显示个人评分
