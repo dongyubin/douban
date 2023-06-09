@@ -55,9 +55,29 @@
       background-color: #081c22;
       border-radius: 5px;
     }
+    #myBtn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      z-index: 99;
+      font-size: 18px;
+      border: none;
+      outline: none;
+      background-color: red;
+      color: white;
+      cursor: pointer;
+      padding: 15px;
+      border-radius: 4px;
+    }
+
+    #myBtn:hover {
+      background-color: #555;
+    }
   </style>
 </head>
 <body>
+  <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
   <div class="container" id="container">
     <div class="filter">
       <div class="genres">
@@ -125,6 +145,27 @@
 </body>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function() {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+  /**
+   * 绘制评分圆环
+  */
   function drawMain(drawing_elem, percent, forecolor, bgcolor) {
     /*
         借鉴地址：[canvas 绘制动态圆环进度条_canvas 环形进度条 背景色_前端小白的江湖路的博客-CSDN博客](https://blog.csdn.net/qq_21058391/article/details/76691047)
@@ -134,11 +175,13 @@
         @forecolor: 绘制圆环的前景色，颜色代码
         @bgcolor: 绘制圆环的背景色，颜色代码
     */
+    //  获取画布来渲染上下文
     var context = drawing_elem.getContext("2d");
     var center_x = drawing_elem.width / 2;
     var center_y = drawing_elem.height / 2;
+    // Math.PI 表示一个圆的周长与直径的比例，约为 3.14159
     var rad = Math.PI*2/100;    
-    var speed = 0;
+    // var speed = 0;
     var width = drawing_elem.width;
     var  height = drawing_elem.height;
     
@@ -153,15 +196,23 @@
     
     // 绘制背景圆圈
     function backgroundCircle(){
+      // .save() 是 Canvas 2D API 通过将当前状态放入栈中，保存 canvas 全部状态的方法。
       context.save();
+      // .beginPath() 是 Canvas 2D API 通过清空子路径列表开始一个新路径的方法。当你想创建一个新的路径时，调用此方法。
       context.beginPath();
+      // .lineWidth 是 Canvas 2D API 设置线段厚度的属性（即线段的宽度）
       context.lineWidth = 8; //设置线宽
       var radius = center_x - context.lineWidth;
       context.lineCap = "round";
+      // .strokeStyle 是 Canvas 2D API 描述画笔（绘制图形）颜色或者样式的属性。默认值是 #000 (black)。
       context.strokeStyle = bgcolor;
+      // .arc() 是 Canvas 2D API 绘制圆弧路径的方法。圆弧路径的圆心在 (x, y) 位置，半径为 r，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
       context.arc(center_x, center_y, radius, 0, Math.PI*2, false);
+      // .stroke() 是 Canvas 2D API 使用非零环绕规则，根据当前的画线样式，绘制当前或已经存在的路径的方法。
       context.stroke();
+      // .closePath() 是 Canvas 2D API 将笔点返回到当前子路径起始点的方法。它尝试从当前点到起始点绘制一条直线。如果图形已经是封闭的或者只有一个点，那么此方法不会做任何操作。
       context.closePath();
+      // .restore() 是 Canvas 2D API 通过在绘图状态栈中弹出顶端的状态，将 canvas 恢复到最近的保存状态的方法。如果没有保存状态，此方法不做任何改变。
       context.restore();
     }
         
@@ -184,9 +235,11 @@
       context.save(); //save和restore可以保证样式属性只运用于该段canvas元素
       context.fillStyle = '#fff';
       var font_size = 12;
+      // .font 是 Canvas 2D API 描述绘制文字时，当前字体样式的属性。使用和 CSS font 规范相同的字符串值。
       context.font = font_size + "px Helvetica";
       // 该对象包含有关测量文本的信息（例如其宽度）
       var text_width = context.measureText(n.toFixed(0)+"%").width;
+      // .fillText() 是 Canvas 2D API 在 (x, y) 位置填充文本的方法。如果选项的第四个参数提供了最大宽度，文本会进行缩放以适应最大宽度。
       context.fillText(n.toFixed(0)+"%", center_x-text_width/2, center_y + font_size/2);
       context.restore();
     }
@@ -202,6 +255,7 @@
     // speed += 1;
 //  }());
   }
+  
   var jsonFile='./data/douban/movie.json';
   getData(jsonFile);
 
@@ -228,16 +282,18 @@
     dataType: 'json',
     success: function(data) {
       var filteredData;
+      // 用于存放筛选条件的字典
       var conditions = {}
+      // 抓取存放电影内容的元素
       var content = $('#content');
       // 判断是否有筛选条件
       if($('.search.active').length!=0){
-        for(let i=0;i<$('.search.active').length;i++){
+        for(let i=0; i<$('.search.active').length; i++){
           var active_type = $('.search.active')[i].dataset['search'];
           var active_value = $('.search.active')[i].dataset['value'];
           conditions[active_type] = active_value;
         }
-        console.log(conditions);
+        // console.log(conditions);
         // 判断筛选条件是否选择
         const year = conditions['year'];
         const star = conditions['star'];
@@ -293,7 +349,7 @@
       }else{
         filteredData = $.parseJSON(JSON.stringify(data));
       }
-      console.log(filteredData);
+      // console.log(filteredData);
       // 清空页面
       content.html('');
       updatePage(content, filteredData);
@@ -352,56 +408,56 @@
       let ratings_star_count = ratings['star_count'];
       
       
-      // 创建新的Div
+      // 创建新的Div，来存放电影内容，方便布局
       var newDiv = $("<div></div>");
       var canvasDiv = $("<div></div>");
       newDiv.addClass('list');
-      canvasDiv.addClass('d-canvas')
+      canvasDiv.addClass('d-canvas');
       var newLink = $("<a></a>").attr({
       "href": url,
       "target": '_blank',
       "alt": title
       });
       // 显示电影题目
-      var $span = $('<h2>').text(title);
+      var span_title = $('<h2>').text(title);
       // 显示电影照片
       var newImg = $("<img />").attr({
       "src": cover_url,
       "alt": title
       });
       // 显示个人评分
-      var $span_star = $('<span>');
+      var span_star = $('<span>');
       
       if (rating != null){
-        $span_star.append('个人评分：');
+        span_star.append('个人评分：');
         let star_count = rating['star_count'];
         // console.log(star_count);
         for(let j=0; j<star_count; j++){
-          $span_star = $span_star.append('⭐');
+          span_star = span_star.append('⭐');
         }
       }else{
-        $span_star.append('个人评分：未评分');
+        span_star.append('个人评分：未评分');
       }
-      var $ratings_star_span = $('<span>');
-      $ratings_star_span.append('豆瓣评分：')
+      var ratings_star_span = $('<span>');
+      ratings_star_span.append('豆瓣评分：')
       for(let k=0; k<ratings_star_count; k++){
-        $ratings_star_span = $ratings_star_span.append('🌟');
+        ratings_star_span = ratings_star_span.append('🌟');
       }
-
+      // 创建Canvas元素，用于绘制评分圆环
       var ratings_star_canvas = $('<canvas>').attr({
         width: 60,
         height: 60
       });
       ratings_star_canvas.attr('id', 'canvas' + i);
       drawMain(ratings_star_canvas[0], ratings_value*10, '#'+primary_color_dark, '#'+secondary_color);
-      $ratings_star_span.append('&nbsp;&nbsp;&nbsp;'+ratings_value+'/10');
+      ratings_star_span.append('&nbsp;&nbsp;&nbsp;'+ratings_value+'/10');
       newLink.append(newImg);
       canvasDiv.append(ratings_star_canvas);
       newDiv.append(canvasDiv);
       newDiv.append(newLink);
-      newDiv.append($span);
-      newDiv.append($span_star);
-      newDiv.append($ratings_star_span);
+      newDiv.append(span_title);
+      newDiv.append(span_star);
+      newDiv.append(ratings_star_span);
       content.append(newDiv);
       
     }
