@@ -247,6 +247,7 @@
  //执行动画
 //  (function drawFrame(){
     // window.requestAnimationFrame(drawFrame);
+    // .clearRect() 是 Canvas 2D API 的方法，这个方法通过把像素设置为透明以达到擦除一个矩形区域的目的。
     context.clearRect(0, 0, drawing_elem.width, drawing_elem.height);
     backgroundCircle();
     text(percent);
