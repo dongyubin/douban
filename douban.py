@@ -1,7 +1,7 @@
 import requests
 import json
 import os
-save_folder = './data/douban/'
+save_folder = './images/douban/'
 json_file_path = './data/douban/movie.json'
 # 确保文件夹路径存在
 os.makedirs(save_folder, exist_ok=True)
