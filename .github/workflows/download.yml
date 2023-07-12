@@ -26,15 +26,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Python Script
-        run: python douban.py # 替换为你的 Python 脚本文件名
-
-      - name: Create Destination Folder
         run: |
-          mkdir -p images/douban
+          python douban.py # 替换为你的 Python 脚本文件名
           ls images/douban
 
-      - name: Copy Downloaded File
-        run: cp -r images/douban images/douban # 替换为你下载的文件的路径及文件名以及目标文件夹路径
       - name: Commit
         uses: EndBug/add-and-commit@v9
         with:
