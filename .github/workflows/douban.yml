@@ -1,4 +1,5 @@
 # .github/workflows/douban.yml
+name: Douban Get Json
 on:
   schedule:
     - cron: '7 1,5,10,14,17,22 * * *'
@@ -6,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       unconditional-invoking:
-        description: 'Invoke API unconditionally'
+        description: '获取豆瓣Json数据'
         type: boolean
         required: true
         default: true
