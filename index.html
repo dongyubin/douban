@@ -385,6 +385,7 @@
       // picNormal = subject['pic']['normal'];
       // 照片
       cover_url = subject['cover_url'];
+      cover_url = './data/douban/'+cover_url.substring(cover_url.lastIndexOf('/') + 1);
       // 官方评分集合
       let ratings = subject['rating'];
       // 颜色集合
