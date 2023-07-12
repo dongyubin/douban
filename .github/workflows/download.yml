@@ -1,0 +1,32 @@
+name: Download and Save File
+
+on:
+  push:
+    branches:
+      - main
+  watch:
+    types:
+      - files
+    paths:
+      - /data/douban/movie.json # 替换为你的 JSON 文件路径
+
+jobs:
+  download-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # 替换为你要使用的 Python 版本
+
+      - name: Run Python Script
+        run: python douban.py # 替换为你的 Python 脚本文件名
+
+      - name: Create Destination Folder
+        run: mkdir -p images/douban # 替换为你想要保存文件的目标文件夹路径
+
+      - name: Move Downloaded File
+        run: mv downloaded_file images/douban # 替换为你下载的文件的路径及文件名以及目标文件夹路径
