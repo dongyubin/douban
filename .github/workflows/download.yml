@@ -2,7 +2,7 @@ name: Download and Save File
 on:
   push:
     paths:
-      - './data/douban/'
+      - 'data/douban/**'
 
 jobs:
   download-job:
