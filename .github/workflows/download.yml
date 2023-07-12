@@ -29,10 +29,12 @@ jobs:
         run: python douban.py # 替换为你的 Python 脚本文件名
 
       - name: Create Destination Folder
-        run: mkdir -p images/douban # 替换为你想要保存文件的目标文件夹路径
+        run: |
+          mkdir -p images/douban
+          ls images/douban
 
       - name: Move Downloaded File
-        run: mv images/douban/ images/douban # 替换为你下载的文件的路径及文件名以及目标文件夹路径
+        run: mv images/douban images/douban # 替换为你下载的文件的路径及文件名以及目标文件夹路径
       - name: Commit
         uses: EndBug/add-and-commit@v9
         with:
