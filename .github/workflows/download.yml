@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -32,4 +32,9 @@ jobs:
         run: mkdir -p images/douban # 替换为你想要保存文件的目标文件夹路径
 
       - name: Move Downloaded File
-        run: mv /github/workspace/images/douban/ images/douban # 替换为你下载的文件的路径及文件名以及目标文件夹路径
+        run: mv images/douban/ images/douban # 替换为你下载的文件的路径及文件名以及目标文件夹路径
+      - name: Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'chore: update images data'
+          add: './images/douban'
