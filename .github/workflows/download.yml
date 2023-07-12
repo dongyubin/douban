@@ -21,6 +21,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x' # 替换为你要使用的 Python 版本
+          
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
 
       - name: Run Python Script
         run: python douban.py # 替换为你的 Python 脚本文件名
