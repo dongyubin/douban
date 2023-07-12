@@ -19,7 +19,7 @@ for i in data:
     'Referer': 'https://doubanio.com'
     }
   # 发送带有自定义请求头的GET请求获取图片数据
-  response = requests.get(image_url, headers=headers)
+  response = requests.get(image_url, headers=headers, timeout=10)
   file_name = image_url.split('/')[-1]
   save_path = os.path.join(save_folder, file_name)
   # 保存图片到本地
