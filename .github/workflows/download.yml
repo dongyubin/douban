@@ -1,11 +1,8 @@
 name: Download and Save File
-
-name: 监听文件夹变化
-
 on:
   push:
     paths:
-      - ./data/douban/
+      - './data/douban/'
 
 jobs:
   download-job:
