@@ -1,14 +1,11 @@
 name: Download and Save File
 
+name: 监听文件夹变化
+
 on:
   push:
-    branches:
-      - main
-  watch:
-    types:
-      - files
     paths:
-      - /data/douban/movie.json # 替换为你的 JSON 文件路径
+      - ./data/douban/
 
 jobs:
   download-job:
