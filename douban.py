@@ -27,11 +27,11 @@ def dowoloadFile(image_url):
     headers = {
     'Referer': 'https://doubanio.com'
     }
-  response = requests.get(image_url, headers=headers, timeout=10)
+  response = requests.get(image_url, headers=headers, timeout=30)
   file_name = image_url.split('/')[-1]
   save_path = os.path.join(save_folder, file_name)
   if os.path.exists(save_path):
-    print('文件已存在')
+    print(f'文件已存在 {file_name}')
   else:
     print('文件不存在')
     with open(save_path, 'wb') as file:
