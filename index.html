@@ -12,6 +12,9 @@
   <style>
     a {
       text-decoration: none;
+      overflow: hidden;
+      position: relative;
+      color: #000;
     }
 
     .container {
@@ -54,11 +57,17 @@
       position: absolute;
       right: 4px;
       top: 316px;
+      z-index: 1;
     }
 
     img {
       width: 270px;
       height: 380px;
+      transition: 1s ease-in-out;
+    }
+
+    .list:hover img {
+      transform: scale(1.1);
     }
 
     .active {
@@ -96,6 +105,30 @@
       opacity: 0;
       transform: translateY(6%);
       transition: opacity .4s ease, transform .8s ease;
+    }
+
+    .info div {
+      padding-top: 8px;
+    }
+
+    @media (min-width: 1200px) {
+      .list:hover .info {
+        display: block;
+      }
+
+      .info {
+        background: rgba(0, 0, 0, .6);
+        backdrop-filter: blur(6px);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 60px 30px 20px;
+        color: #fff;
+        display: none;
+        position: absolute;
+      }
+
     }
   </style>
 </head>
@@ -481,6 +514,12 @@
         "target": '_blank',
         "alt": title
       });
+      var newLink2 = $("<a></a>").attr({
+        "href": url,
+        "target": '_blank',
+        "alt": title
+      });
+      newLink2.addClass('info');
       // 显示电影题目
       var span_title = $('<h2>').text(title);
       // 显示电影照片
@@ -489,7 +528,7 @@
         "alt": title
       });
       // 显示个人评分
-      var span_star = $('<span>');
+      var span_star = $('<div></div>');
 
       if (rating != null) {
         span_star.append('个人评分：');
@@ -501,7 +540,7 @@
       } else {
         span_star.append('个人评分：未评分');
       }
-      var ratings_star_span = $('<span>');
+      var ratings_star_span = $('<div></div>');
       ratings_star_span.append('豆瓣评分：')
       for (let k = 0; k < ratings_star_count; k++) {
         ratings_star_span = ratings_star_span.append('🌟');
@@ -518,9 +557,10 @@
       canvasDiv.append(ratings_star_canvas);
       newDiv.append(canvasDiv);
       newDiv.append(newLink);
-      newDiv.append(span_title);
-      newDiv.append(span_star);
-      newDiv.append(ratings_star_span);
+      newLink2.append(span_title);
+      newLink2.append(span_star);
+      newLink2.append(ratings_star_span);
+      newDiv.append(newLink2);
       content.append(newDiv);
     }
   }
