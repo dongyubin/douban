@@ -472,13 +472,15 @@
       let rating = Data[i]['rating'];
       // 电影题目
       title = subject['title'];
+      let subject_id = subject['id']; 
       // 电影链接
       // sharing_url = subject['sharing_url'];
       // 电影照片
       // picNormal = subject['pic']['normal'];
       // 照片
-      cover_url = subject['cover_url'];
-      cover_url = './images/douban/' + cover_url.substring(cover_url.lastIndexOf('/') + 1);
+      // cover_url = subject['cover_url'];
+      // cover_url = './images/douban/' + cover_url.substring(cover_url.lastIndexOf('/') + 1);
+      cover_url = 'https://dou.img.lithub.cc/movie/'+ subject_id +'.jpg';
       // 官方评分集合
       let ratings = subject['rating'];
       // 颜色集合

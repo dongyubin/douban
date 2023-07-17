@@ -1,7 +1,7 @@
 # 豆瓣已看电影展示
 
-- 数据：使用了[豆瓣书影音同步 GitHub Action](https://imnerd.org/doumark.html)来抓取的`JSON`数据
-- 页面自己写的，用的`Flex`布局+`jQuery`（处理数据和页面）
+- 数据：使用了 [豆瓣书影音同步 GitHub Action](https://imnerd.org/doumark.html) 来抓取的 `JSON` 数据
+- 页面自己写的，用的 `Flex` 布局+ `jQuery`（处理数据和页面）
 
 ## 页面内容
 
@@ -27,7 +27,15 @@
 HTTP ERROR 403
 ```
 
+[详细教程地址](https://www.wangdu.site/course/1716.html)
+
 1. 将JSON文件下载到本地直接在本地加载即可
 2. 使用的是根目录下的 `douban.py`(已支持Json movie文件、CSV movie、book文件) 下载到 `images/douban` 路径下
 3. 页面路径怎样修改：看 `index.html` 第 **481** 行
 4. 在 `.github/workflows` 创建了 `download.yml` 来监听 JSON 文件的变化从而自动下载图片并提交
+
+---
+
+@怡红公子 写的豆瓣图片的公共服务：`https://dou.img.lithub.cc/movie/+[id].jpg`
+
+- [id] 为 Json 文件中 subject 里的 id
