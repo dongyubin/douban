@@ -21,14 +21,10 @@ csv_book_path= ''
 def dowoloadFile(image_url):
   # 确保文件夹路径存在
   os.makedirs(save_folder, exist_ok=True)
-  if image_url.startswith("https://") and "koobai.com" in image_url:
-    # 请求头
+  if image_url.startswith("https://") and "dou.img.lithub.cc" in image_url:
     headers = {
-    'Referer': 'https://koobai.com'
-    }
-  elif "dou.img.lithub.cc" in image_url:
-    headers = {
-      'Referer': 'https://dou.img.lithub.cc'
+      'Host': 'dou.img.lithub.cc',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
   else:
     headers = {
