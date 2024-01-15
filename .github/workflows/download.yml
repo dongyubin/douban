@@ -18,21 +18,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # 替换为你要使用的 Python 版本
-
-      - name: Install Dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run Python Script
+          python-version: '3.9' # 替换为你要使用的 Python 版本
+      - uses: actions/cache@v3
+        name: Configure pip caching
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install Python dependencies
         run: |
-          python douban.py # 替换为你的 Python 脚本文件名
+          python -m pip install -r requirements.txt
+      - name: Update README
+        run: |-
+          python douban.py
           ls images/douban
 
+      # - name: Install Dependencies
+      #   run: pip install -r requirements.txt
+
+      # - name: Run Python Script
+      #   run: |
+      #     python douban.py # 替换为你的 Python 脚本文件名
+      #     ls images/douban
       - name: Commit
         uses: EndBug/add-and-commit@v9
         with:
