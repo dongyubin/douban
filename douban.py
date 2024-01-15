@@ -25,7 +25,11 @@ def dowoloadFile(image_url):
     # 请求头
     headers = {
     'Referer': 'https://koobai.com'
-    } 
+    }
+  elif "dou.img.lithub.cc" in image_url:
+    headers = {
+      'Referer': 'https://dou.img.lithub.cc'
+    }
   else:
     headers = {
     'Referer': 'https://doubanio.com'
