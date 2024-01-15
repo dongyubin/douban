@@ -23,21 +23,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.9' # 替换为你要使用的 Python 版本
-      # - uses: actions/cache@v3
-      #   name: Configure pip caching
-      #   with:
-      #     path: ~/.cache/pip
-      #     key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pip-
-      # - name: Install Python dependencies
-      #   run: |
-      #     python -m pip install -r requirements.txt
-      # - name: Run Python Script
-      #   run: |-
-      #     python douban.py
-      #     ls images/douban
-
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
