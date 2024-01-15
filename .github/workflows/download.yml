@@ -33,7 +33,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install -r requirements.txt
-      - name: Update README
+      - name: Run Python Script
         run: |-
           python douban.py
           ls images/douban
