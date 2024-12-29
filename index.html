@@ -8,7 +8,9 @@
   <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>豆瓣影视</title>
-  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.webstatic.cn/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+    crossorigin="anonymous">
   <style>
     a {
       text-decoration: none;
@@ -200,7 +202,9 @@
     </div>
   </div>
 </body>
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.webstatic.cn/ajax/libs/jquery/3.7.1/jquery.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
 <script>
   // When the user scrolls down 20px from the top of the document, show the button
   window.onscroll = function () {
@@ -472,7 +476,7 @@
       let rating = Data[i]['rating'];
       // 电影题目
       title = subject['title'];
-      let subject_id = subject['id']; 
+      let subject_id = subject['id'];
       // 电影链接
       // sharing_url = subject['sharing_url'];
       // 电影照片
@@ -480,7 +484,7 @@
       // 照片
       // cover_url = subject['cover_url'];
       // cover_url = './images/douban/' + cover_url.substring(cover_url.lastIndexOf('/') + 1);
-      cover_url = 'https://dou.img.lithub.cc/movie/'+ subject_id +'.jpg';
+      cover_url = 'https://dou.img.lithub.cc/movie/' + subject_id + '.jpg';
       // 官方评分集合
       let ratings = subject['rating'];
       // 颜色集合
